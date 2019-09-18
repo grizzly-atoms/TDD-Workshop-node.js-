@@ -91,26 +91,70 @@ When you are done, your code should look like these:
 
 Our API is meeting the basic requirements of the feature, but we've just mocked out a user object and we aren't actually getting anything from any kind of persisted storage. We need to make sure that we get user records from our database when we request them from the api. We'll start by adding another failing test, but things are going to get a little bit more complex now. We want to insure that our data is actually coming from the saved values in the database. That's going to require some extra setup. In the end, our test looks like this
 
+### Example 02.01: `git checkout example-02.01`
 ```javascript
-    response = await request(app).get('/users/wendy.torrance@overlook.com');
+describe('/users/:email', () => {
+  it('returns user objects', async () => {
+    const jack = await factory.create('user', {
+      email: 'jack.torrance@overlook.com',
+      firstName: 'Jack',
+    });
+
+    const wendy = await factory.create('user', {
+      email: 'wendy.torrance@overlook.com',
+      firstName: 'Wendy',
+    });
+
+    let response = await request(app).get('/users/jack.torrance@overlook.com');
+    expect(response.status).toBe(200);
+    const { header } = response;
+    expect(header['content-type']).toBe('application/vnd.api+json; charset=utf-8');
+
     expect(JSON.parse(response.text)).toEqual({
-      id: 'wendy.torrance@overlook.com',
+      id: jack.email,
       type: 'user',
       data: {
         attributes: {
-          firstName: 'Wendy',
+          firstName: jack.firstName,
         }
       },
     });
-  ```
 
- To Get the full test and it's dependencies, you can run:
-
- ```bash
-git checkout example-02.01
+    response = await request(app).get('/users/wendy.torrance@overlook.com');
+    expect(JSON.parse(response.text)).toEqual({
+      id: wendy.email,
+      type: 'user',
+      data: {
+        attributes: {
+          firstName: wendy.firstName,
+        }
+      },
+    });
+  });
+});
  ```
+
+ To Get the full test and its dependencies, you can run:
 
  __Note__: for this example you'll need a mongo server running on localhost.
 
- Now we have a failing test that is based on the 
+ Now that we have a failing test that is checking that the values for our user records are coming from the database, we can update our production code to make this test pass:
+
+### Example 02.02: `git checkout example-02.02`
+ ```javascript
+router.get('/:email', async (req, res, next) => {
+  const { params: { email } } = req;
+  const { firstName } = await User.findOne({ email }).exec();
+
+  res.type('application/vnd.api+json').send({
+    id: email,
+    type: 'user',
+    data: {
+      attributes: {
+        firstName,
+      }
+    },
+  });
+});
+ ```
 
