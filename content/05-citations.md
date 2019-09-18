@@ -4,3 +4,5 @@
 2. Ron Jeffries (Apr 4, 1998) [You're NOT gonna need it!](https://ronjeffries.com/xprog/articles/practices/pracnotneed/)
 3. Alex McPeak (Aug 8, 2017) [Software Bug Costs](https://crossbrowsertesting.com/blog/development/software-bug-cost/)
 4. Jeffries, Ron & Melnik, Grigori. (2007). Guest Editors' Introduction: [TDD--The Art of Fearless Programming](https://www.researchgate.net/publication/3249271_Guest_Editors'_Introduction_TDD--The_Art_of_Fearless_Programming). Software, IEEE. 24. 24 - 30. 10.1109/MS.2007.75.
+5. Matthew Kane Parker (Aug 19, 2016) [TDD: The Bad Parts](https://youtu.be/xPL84vvLwXA)
+6. Sandi Metz (May 21, 2013) [The Magic Tricks of Testing](https://youtu.be/URSWYvyc42M)
