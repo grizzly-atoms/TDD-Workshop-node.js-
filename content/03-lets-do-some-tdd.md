@@ -110,4 +110,7 @@ Our API is meeting the basic requirements of the feature, but we've just mocked 
 git checkout example-02.01
  ```
 
- Note, for this example you'll need a mongo server running on localhost.
+ __Note__: for this example you'll need a mongo server running on localhost.
+
+ Now we have a failing test that is based on the 
+
