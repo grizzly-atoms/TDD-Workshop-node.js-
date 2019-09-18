@@ -1,18 +1,26 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
+
+const express = require('express');
+const router = express.Router();
+const db = require('../lib/db');
+const User = require('../db/models/user');
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
-router.get('/:email', (req, res, next) => {
+
+router.get('/:email', async (req, res, next) => {
+  const { params: { email } } = req;
+  const { firstName } = await User.findOne({ email }).exec();
+
   res.type('application/vnd.api+json').send({
-    id: req.params.email,
+    id: email,
     type: 'user',
     data: {
       attributes: {
-        firstName: 'Jack',
+        firstName,
       }
     },
   });
